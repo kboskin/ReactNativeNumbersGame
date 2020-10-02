@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableWithoutFeedback, Button, Keyboard, Aler
 import Card from "./Card"
 import Colors from '../constants/color'
 import InputComponent from './InputComponent'
+import NumberContainer from './NumberContainer'
 
 
 const StartGameScreen = (props) => {
@@ -22,10 +23,7 @@ const StartGameScreen = (props) => {
 
     const confirmInputHandler = () => {
         const chooseNumber = parseInt(enteredValue)
-        console.log(chooseNumber)
-        console.log(chooseNumber == NaN)
-        console.log(typeof(chooseNumber))
-        if (isNaN(NaN) || chooseNumber <= 0 || chooseNumber > 99){
+        if (isNaN(chooseNumber) || chooseNumber <= 0 || chooseNumber > 99){
             Alert.alert(
                 "Invalid number", 
                 "number has to be a number [0, 99)", 
@@ -42,10 +40,17 @@ const StartGameScreen = (props) => {
         // will work because component render will be executed after the whole bunch
         setSelectedNumber(parseInt(enteredValue))
         setEnteredValue('')
+        Keyboard.dismiss()
     }
     let confirmedOutput
     if (userConfirmed){
-        confirmedOutput = <Text>Output: {selectedNumber}</Text>
+        confirmedOutput = (
+        <Card style={styles.summaryContainer}>
+            <Text>You have selected</Text>
+            <NumberContainer>{selectedNumber}</NumberContainer>
+            <Button title="Start game"></Button>
+        </Card>
+        )
     }
 
     return(
@@ -115,6 +120,9 @@ const styles = StyleSheet.create({
     input: {
         width: 50,
         textAlign: 'center'
+    },
+    summaryContainer: {
+        marginTop: 20
     }
 
 })
