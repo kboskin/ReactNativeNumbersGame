@@ -22,17 +22,20 @@ const StartGameScreen = (props) => {
 
     const confirmInputHandler = () => {
         const chooseNumber = parseInt(enteredValue)
-        if (chooseNumber === NaN || chooseNumber <= 0 || chooseNumber > 99){
-            // Alert.alert(
-            //     "Invalid number", 
-            //     "number has to be a number [0, 99)", 
-            //     [
-            //         {   text: 'Ok', 
-            //             style: "destructive", 
-            //             onPress:resetInputHandler
-            //         }
-            //     ]
-            // )
+        console.log(chooseNumber)
+        console.log(chooseNumber == NaN)
+        console.log(typeof(chooseNumber))
+        if (isNaN(NaN) || chooseNumber <= 0 || chooseNumber > 99){
+            Alert.alert(
+                "Invalid number", 
+                "number has to be a number [0, 99)", 
+                [
+                    {   text: 'Ok', 
+                        style: "destructive", 
+                        onPress:resetInputHandler
+                    }
+                ]
+            )
             return;
         }
         setUserConfirmed(true)
