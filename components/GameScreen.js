@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import {View, Text, StyleSheet, Button} from "react-native"
+import React, { useState, useRef, useEffect } from 'react'
+import {View, Text, StyleSheet, Button, Alert} from "react-native"
 import Card from './Card'
 import NumberContainer from "./NumberContainer"
 
@@ -19,13 +19,41 @@ const generateRandomBetween = (min, max, exclude) => {
 const GameScreen = (props) => {
 
     const [currentGuess, setCurrentGuess] = useState(generateRandomBetween(1, 100, props.userChoise))
+    const [rounds, setRounds] = useState(0)
+
+    const currLow = useRef(1)
+    const currHigh = useRef(100)
+
+    useEffect(() => {
+        if (currentGuess == props.userChoise){
+            props.onGameOver(rounds)
+        }
+    }, [currentGuess, props.userChoise, props.onGameOver])
+
+    const nextGuessHandler = (direction) => {
+        if (direction === 'lower' && currentGuess < props.userChoise || (direction === 'greater' && currentGuess > props.userChoise)){
+             Alert.alert("Don't lie", "You know, that this is wrong:)", [{text: "Sorry", style:"cancel"}])
+             return;
+        }
+
+        if (direction == 'lower'){
+            currHigh.current = currentGuess
+        } else {
+            currLow.current = currentGuess
+        }
+
+        const nextNumber = generateRandomBetween(currLow.current, currHigh.current, currentGuess)
+        setCurrentGuess(nextNumber)
+        setRounds(rounds => rounds + 1)
+    }
+
     return (
         <View style={styles.screen}>
             <Text>Opponent's Guess: </Text>
             <NumberContainer>{currentGuess}</NumberContainer>
             <Card style={styles.buttonsContainer}>
-                <Button title="Lower"></Button>
-                <Button title="Greater"></Button>
+                <Button title="Lower" onPress={nextGuessHandler.bind(this, 'lower')}></Button>
+                <Button title="Greater" onPress={nextGuessHandler.bind(this, 'greater')}></Button>
             </Card>
         </View>
     )
