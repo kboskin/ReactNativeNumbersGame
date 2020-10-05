@@ -57,7 +57,7 @@ const StartGameScreen = (props) => {
     return(
         <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
         <View style={styles.root}>
-            <Text>Start a new Game</Text>
+            <Text style={styles.text}>Start a new Game</Text>
             <Card style={styles.mainViewContainer}>
                 <Text>Select a Number</Text>
                 <InputComponent 
@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'black',
-        fontSize: 18
+        fontSize: 18,
+        fontFamily: "Arialn"
     },
     mainViewContainer: {
         width: 300,
